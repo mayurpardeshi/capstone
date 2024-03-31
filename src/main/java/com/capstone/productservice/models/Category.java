@@ -8,4 +8,8 @@ import lombok.Setter;
 public class Category {
     private  Long id;
     private String title;
+
+    public Category(String category) {
+        this.title = category;
+    }
 }
