@@ -26,8 +26,8 @@ public class ProductController {
     public Product getProductByIdException(@PathVariable(name = "id") Long id) throws ArithmeticException{
         //return productService.getProductById(id);
         //throw new ArithmeticException("heelo");
-        long a = 10l/id;
-        return null;
+        //long a = 10l/id; //throwing exception if id == 0
+        return productService.getProductById(id);
     }
 
     @GetMapping
@@ -44,5 +44,17 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,@RequestBody ProductDto product){
         Product updatedProduct = productService.updateProduct(id, product);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Product> updatePartiallyProduct(@PathVariable("id") Long id,@RequestBody ProductDto productDto){
+        Product updatedProduct = productService.paritiallyUpdateProduct(id,productDto);
+        return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable("id") Long id){
+        Product deletedProduct = productService.deleteProduct(id);
+        return new ResponseEntity<>(deletedProduct,HttpStatus.OK);
     }
 }

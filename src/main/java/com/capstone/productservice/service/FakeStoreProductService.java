@@ -83,6 +83,20 @@ public class FakeStoreProductService implements IProductService {
     }
 
     @Override
-    public void deleteProduct() {
+    public Product deleteProduct(Long id) {
+        //restTemplate.delete("https://fakestoreapi.com/products/"+id);
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(null,FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor<>(FakeStoreProductDto.class,restTemplate.getMessageConverters());
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.execute("https://fakestoreapi.com/products/"+id, HttpMethod.DELETE,requestCallback,responseExtractor);
+        return convertFakeStoreProductDtoToProductObject(fakeStoreProductDto);
+    }
+
+    @Override
+    public Product paritiallyUpdateProduct(Long id, ProductDto productDto) {
+        System.out.println(productDto);
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(productDto,FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor<>(FakeStoreProductDto.class,restTemplate.getMessageConverters());
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.execute("https://fakestoreapi.com/products/"+id, HttpMethod.PATCH,requestCallback,responseExtractor);
+        return convertFakeStoreProductDtoToProductObject(fakeStoreProductDto);
     }
 }
