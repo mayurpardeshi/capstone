@@ -9,9 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Product {
-    @Id
-    private Long id;
+public class Product extends BaseModal {
     private String title;
     private double price;
     private String description;
