@@ -14,4 +14,8 @@ public class Category extends BaseModal {
     public Category(String category) {
         this.title = category;
     }
+
+    public Category() {
+
+    }
 }

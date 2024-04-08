@@ -4,6 +4,7 @@ import com.capstone.productservice.dtos.FakeStoreProductDto;
 import com.capstone.productservice.dtos.FakeStoreProductListDto;
 import com.capstone.productservice.dtos.ProductDto;
 import com.capstone.productservice.models.Product;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-@Service
+@Service("FakeStoreProductService")
 public class FakeStoreProductService implements IProductService {
     private RestTemplate restTemplate;
     FakeStoreProductService(RestTemplate restTemplate){
