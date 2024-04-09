@@ -2,6 +2,7 @@ package com.capstone.productservice.repositories;
 
 import com.capstone.productservice.models.Category;
 import com.capstone.productservice.models.Product;
+import com.capstone.productservice.projections.ProductWithIdAndTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -27,6 +28,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     Product save(Product product);
 
-    /*@Query("select p from Product where p.id=10")
-    List<Product> someRandomQuery();*/
+    @Query("select p.Id as id,p.title as title from Product p where p.Id=id")
+    List<ProductWithIdAndTitle> someRandomQuery(Long id);
 }

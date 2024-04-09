@@ -4,6 +4,7 @@ import com.capstone.productservice.dtos.FakeStoreProductDto;
 import com.capstone.productservice.dtos.FakeStoreProductListDto;
 import com.capstone.productservice.dtos.ProductDto;
 import com.capstone.productservice.models.Product;
+import com.capstone.productservice.projections.ProductWithIdAndTitle;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -99,5 +100,10 @@ public class FakeStoreProductService implements IProductService {
         HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor<>(FakeStoreProductDto.class,restTemplate.getMessageConverters());
         FakeStoreProductDto fakeStoreProductDto = restTemplate.execute("https://fakestoreapi.com/products/"+id, HttpMethod.PATCH,requestCallback,responseExtractor);
         return convertFakeStoreProductDtoToProductObject(fakeStoreProductDto);
+    }
+
+    @Override
+    public ProductWithIdAndTitle getProdcutWithIdAndTitle(Long id) {
+        return null;
     }
 }

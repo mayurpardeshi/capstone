@@ -2,6 +2,7 @@ package com.capstone.productservice.controller;
 
 import com.capstone.productservice.dtos.ProductDto;
 import com.capstone.productservice.models.Product;
+import com.capstone.productservice.projections.ProductWithIdAndTitle;
 import com.capstone.productservice.service.IProductService;
 import com.capstone.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -63,5 +64,11 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product){
         Product product1 = productService.createProduct(product);
         return new ResponseEntity<>(product1,HttpStatus.OK);
+    }
+
+    @GetMapping("/getIdTitle/{id}")
+    public ResponseEntity<ProductWithIdAndTitle> getProductWithIdAndTitle(@PathVariable("id") Long id){
+        ProductWithIdAndTitle product = productService.getProdcutWithIdAndTitle(id);
+        return new ResponseEntity<>(product,HttpStatus.OK);
     }
 }

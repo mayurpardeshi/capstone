@@ -2,6 +2,7 @@ package com.capstone.productservice.service;
 
 import com.capstone.productservice.dtos.ProductDto;
 import com.capstone.productservice.models.Product;
+import com.capstone.productservice.projections.ProductWithIdAndTitle;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface IProductService {
     Product deleteProduct(Long id);
 
     Product paritiallyUpdateProduct(Long id, ProductDto productDto);
+
+    ProductWithIdAndTitle getProdcutWithIdAndTitle(Long id);
 }
