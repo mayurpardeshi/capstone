@@ -40,12 +40,12 @@ public class DataSeeder implements CommandLineRunner {
         Role userRole = getOrCreateRole("ROLE_USER");
 
         // Step 2: Create a deterministic admin
-        if (!userRepository.existsByUserId("admin@abc.com")) {
+        if (!userRepository.existsByUserId("admin@desicart.com")) {
             User adminUser = User.builder()
                     .firstName("System")
                     .lastName("Admin")
-                    .userId("admin@abc.com")
-                    .password(passwordEncoder.encode("admin1234"))
+                    .userId("admin@desicart.com")
+                    .password(passwordEncoder.encode("admin@123"))
                     .roles(Set.of(adminRole, userRole))
                     .build();
             userRepository.save(adminUser);
@@ -53,16 +53,16 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         // Step 2.a: Create a deterministic user
-        if (!userRepository.existsByUserId("user@abc.com")) {
+        if (!userRepository.existsByUserId("user@desicart.com")) {
             User user = User.builder()
                     .firstName("User")
                     .lastName("Simply")
-                    .userId("user@abc.com")
-                    .password(passwordEncoder.encode("user1234"))
+                    .userId("user@desicart.com")
+                    .password(passwordEncoder.encode("user@123"))
                     .roles(Set.of(userRole))
                     .build();
             userRepository.save(user);
-            System.out.println(">>>> Created default user user@abc.com");
+            System.out.println(">>>> Created default user user@desicart.com");
         }
 
         // 3. Seed Fake Users using Datafaker, create 15 users who has role User
