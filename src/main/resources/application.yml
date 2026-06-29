@@ -1,0 +1,16 @@
+spring:
+  cache:
+    type: redis
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000
+  profiles:
+    active: dev
+
+logging:
+  level:
+    org.springframework.cache: TRACE
+

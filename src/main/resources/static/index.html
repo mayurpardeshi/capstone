@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DesiCart Payment</title>
+</head>
+<body style="text-align:center; padding-top:50px; font-family:sans-serif;">
+
+<h2>Place Order & Pay</h2>
+
+<button id="payBtn"
+        style="background:#3399cc;color:white;border:none;
+               padding:15px 30px;font-size:18px;
+               border-radius:5px;cursor:pointer;">
+    Pay Now
+</button>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    let currentOrderId = null;
+
+    // STEP 1: Create order (backend generates orderId)
+    async function createOrder() {
+        const res = await fetch("http://localhost:8081/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ /* cart details */ })
+        });
+
+        const result = await res.json();
+        return result.data.id;
+    }
+
+    // STEP 2: Initiate payment
+    async function initiatePayment(orderId) {
+
+        const res = await fetch("http://localhost:8081/payments/initiate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ orderId: orderId })
+        });
+
+        const result = await res.json();
+        const data = result.data;
+
+        const options = {
+            key: data.apiKey,
+            amount: data.amount,
+            currency: data.currency,
+            name: "DesiCart",
+            order_id: data.orderId,
+
+            prefill: {
+                name: data.customerName,
+                email: data.customerEmail
+            },
+
+            handler: function (response) {
+                verifyPayment(response);
+            },
+
+            modal: {
+                ondismiss: function () {
+                    alert("Payment popup closed");
+                }
+            }
+        };
+
+        new Razorpay(options).open();
+    }
+
+    // STEP 3️⃣ Verify payment with backend
+    function verifyPayment(response) {
+
+        fetch("http://localhost:8081/payments/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                orderId: currentOrderId,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature
+            })
+        })
+        .then(() => alert("Payment successful 🎉"))
+        .catch(() => alert("Payment verification failed ❌"));
+    }
+
+    // BUTTON CLICK FLOW
+    document.getElementById("payBtn").onclick = async function () {
+        currentOrderId = await createOrder();
+        initiatePayment(currentOrderId);
+    };
+</script>
+
+</body>
+</html>

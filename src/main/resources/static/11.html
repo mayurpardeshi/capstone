@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head><title>DesiCart Test Payment</title></head>
+<body style="text-align:center; padding-top:50px; font-family: sans-serif;">
+<h2>Complete Payment for Order</h2>
+<p>Order ID: <b>order_Rze71RIOXmWfIC</b></p>
+<button id="rzp-button" style="background:#3399cc; color:white; border:none; padding:15px 30px; font-size:18px; border-radius:5px; cursor:pointer;">
+    Pay with Razorpay
+</button>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_Rygdi2QEuUjTJg", // YOUR API KEY
+        "amount": "11654.96",
+        "currency": "INR",
+        "name": "DesiCart",
+        "order_id": "order_Rze71RIOXmWfIC", // YOUR ORDER ID
+        "handler": function (response){
+            alert("SUCCESS! Payment ID: " + response.razorpay_payment_id);
+            console.log(response);
+        },
+        "modal": { "ondismiss": function(){ console.log('Checkout closed'); } }
+    };
+    var rzp1 = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+</script>
+</body>
+</html>
